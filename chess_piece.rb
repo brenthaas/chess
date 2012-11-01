@@ -1,6 +1,7 @@
 require_relative 'chess_helper'
 
 class ChessPiece
+	attr_reader :color, :type 
 	CHESS_PIECES = /[rkbqkp]/i
 
 	def initialize(type)

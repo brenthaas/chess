@@ -34,10 +34,10 @@ describe ChessPiece do
 
 	describe "black pawn" do
 		before { @piece = ChessPiece.new("p") }
+		subject { @piece }
 
-		it "is black" do
-			@piece.black?.should be true
-		end
+		its(:color) {should == "black"}
+		its(:type) {should == "pawn"}
 
 		it "can move down the board one space" do
 			@piece.valid_move?('e7', 'e6').should be true
