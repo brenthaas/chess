@@ -1,25 +1,25 @@
 require_relative 'chess_helper'
 
 class ChessPiece
- 	WHITE_PIECES = /[RKBQKP]/
-	BLACK_PIECES = /[rkbqkp]/
+	CHESS_PIECES = /[rkbqkp]/i
 
 	def initialize(type)
-		@type = type
+		raise "Invalid chess piece given: #{type}" unless type =~ CHESS_PIECES
 
-		raise "Invalid chess piece given: #{type}" unless valid_chess_piece?
-	end
+		@type = case type
+		when /p/i
+			"pawn"
+		end
 
-	def valid_chess_piece?
-		white? || black?
+		@color = (type =~ /\p{Upper}/ ? "white" : "black" )
 	end
 
 	def white?
-		!!(@type =~ WHITE_PIECES)
+		@color == "white"
 	end
 
 	def black?
-		!!(@type =~ BLACK_PIECES)
+		@color == "black"
 	end
 
 	def valid_move?(from_loc, to_loc)
@@ -33,7 +33,7 @@ class ChessPiece
 		end
 
 		case @type
-		when /p/i   # pawn
+		when "pawn"
 			move_col == 0 && move_row == 1
 		end
 	end
@@ -49,7 +49,7 @@ class ChessPiece
 		end
 
 		case @type
-		when /p/i   #pawn
+		when "pawn"
 			move_col.abs == 1 && move_row == 1
 		else				#anything else can capture on a move
 			valid_move?(from_loc, to_loc)
